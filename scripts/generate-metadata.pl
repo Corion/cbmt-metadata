@@ -20,7 +20,12 @@ for my $curr (@currencies) {
     for my $bank_id (sort keys %bank) {
         my $token_id = $bank_id * 1000 + $curr->[0];
         my $token_name = "$curr->[1] ($bank{ $bank_id })";
-        my $filename = sprintf 'metadata/%04x.json', $token_id;
+        my $filename = sprintf 'metadata/%04x/info.json', $token_id;
+        my $path = sprintf 'metadata/%04x', $token_id;
+
+        if( ! -d $path ) {
+            mkdir $path or die "Couldn't create '$path': $!";
+        }
 
         open my $fh, '>:encoding(UTF-8)', $filename
             or die "Couldn't create '$filename': $!";
